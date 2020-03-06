@@ -1,17 +1,18 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
-const path = require('path');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require("html-webpack-plugin"); //installed via npm
+const webpack = require("webpack"); //to access built-in plugins
+const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const fs = require("fs");
 
 module.exports = {
-  entry: './src/posts.js',
-  mode: 'development',
+  entry: "./src/index.js",
+  mode: "development",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "app.js"
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"]
   },
   module: {
     rules: [
@@ -19,45 +20,46 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: ["@babel/plugin-transform-runtime",
+            presets: ["@babel/preset-env"],
+            plugins: [
+              "@babel/plugin-transform-runtime",
               "babel-plugin-styled-components",
-              "@babel/plugin-proposal-class-properties",
-            ],
+              "@babel/plugin-proposal-class-properties"
+            ]
           }
-        },
+        }
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader?classPrefix'
+        loader: "svg-inline-loader?classPrefix"
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
-          },
-        ],
-      },
-    ],
+            loader: "file-loader"
+          }
+        ]
+      }
+    ]
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
 
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({template: './src/index.html'}),
-    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({ template: "./src/index.html" }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, "dist"),
     compress: false,
     port: 9000,
-    historyApiFallback: true,
+    historyApiFallback: true
   }
-}
+};
